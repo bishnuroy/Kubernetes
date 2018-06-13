@@ -20,6 +20,7 @@ Google has given a combined solution for that which is Kubernetes, or how it’s
 
 ### K8S Architecture
 
+![arc-dia](https://github.com/bishnuroy/Kubernetes/blob/master/images/k8s-arc.jpg)
 
 ## Glossary
 
@@ -56,7 +57,7 @@ A controller uses apiserver to watch the shared state of the cluster and makes c
 
 ### K8S Workflow
 
-
+![k8s-wf](https://github.com/bishnuroy/Kubernetes/blob/master/images/k8s-wf.jpg)
 
 ## Worker node
 
@@ -90,4 +91,6 @@ apply the same logic to them and achieve a desired result.
 The Ingress resource embodies this idea, and an Ingress controller is meant to handle all the quirks associated with a specific 
 "class" of Ingress. An Ingress Controller is a daemon, deployed as a Kubernetes Pod, that watches the apiserver's /ingresses 
 endpoint for updates to the Ingress resources. Its job is to satisfy requests for Ingresses.
+
+![IC](https://github.com/bishnuroy/Kubernetes/blob/master/images/IC.jpg)
 
