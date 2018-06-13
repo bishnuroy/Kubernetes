@@ -18,7 +18,7 @@ Nearly all applications nowadays need to have answers for things like
 Google has given a combined solution for that which is Kubernetes, or how it’s shortly called – K8s
 
 
-## [K8S Architecture]
+### K8S Architecture
 
 
 ## Glossary
@@ -35,7 +35,7 @@ As pods have a short lifetime, there is not guarantee about the IP address they 
 
 Hence K8s has introduced the concept of a service, which is an abstraction on top of a number of pods, typically requiring to run a proxy on top, for other services to communicate with it via a Virtual IP address. This is where you can configure load balancing for your numerous pods and expose them via a service.
 
-### Kubernetes Components
+## Kubernetes Components
 
 ## Master Node
 
@@ -54,7 +54,7 @@ The scheduler has the information regarding resources available on the members o
 A controller uses apiserver to watch the shared state of the cluster and makes corrective changes to the current state to change it to the desired one.
 
 
-## K8S Workflow
+### K8S Workflow
 
 
 
