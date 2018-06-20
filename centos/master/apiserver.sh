@@ -3,7 +3,7 @@
 
 MASTER_ADDRESS=${1:-"Master-Node-IP"}
 ETCD_SERVERS=${2:-"http://etcd-server-node1:2379,http://etcd-server-node2:2379,http://etcd-server-node3:2379"}
-SERVICE_CLUSTER_IP_RANGE=${3:-"10.10.10.0/24"}
+SERVICE_CLUSTER_IP_RANGE=${3:-"10.100.0.0/16"}
 ADMISSION_CONTROL=${4:-""}
 
 cat <<EOF >/opt/kubernetes/cfg/kube-apiserver
