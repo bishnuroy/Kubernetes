@@ -38,10 +38,14 @@ KUBE_PROXY="--proxy-mode=iptables"
 KUBE_PROXY_TIMEOUT="--udp-timeout=250ms"
 EOF
 
-KUBE_PROXY_OPTS="   \${KUBE_LOGTOSTDERR} \\
-                    \${KUBE_LOG_LEVEL}   \\
+KUBE_PROXY_OPTS="   \${KUBE_LOG_LEVEL}   \\
                     \${NODE_HOSTNAME}    \\
-                    \${KUBE_MASTER}"
+                    \${KUBE_MASTER}      \\
+                    \${KUBE_CONF}        \\
+                    \${KUBE_PROXY}       \\
+                    \${KUBE_PROXY_TIMEOUT} \\
+                    \${KUBE_CIDR}        \\
+                    \${KUBE_LOG_DIR}"
 
 cat <<EOF >/usr/lib/systemd/system/kube-proxy.service
 [Unit]
