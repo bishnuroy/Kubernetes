@@ -1,4 +1,11 @@
 #!/bin/bash
+
+
+#### VVVVVVIIIIII##
+##For DOCKER WE WILL BELOW URL FOR SOME EXTRA SETTINGS
+#FOR OVERLAY2:  https://docs.docker.com/storage/storagedriver/overlayfs-driver/#configure-docker-with-the-overlay-or-overlay2-storage-driver
+#FOR device-mapper  https://docs.docker.com/storage/storagedriver/device-mapper-driver/
+######
 #This script is created for docker-ce stable version.
 Remove old version of docker
 #
