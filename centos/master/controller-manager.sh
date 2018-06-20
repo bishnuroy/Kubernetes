@@ -29,6 +29,8 @@ KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE="--root-ca-file=/opt/ssl/kubernetes/ca.pem"
 KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE="--service-account-private-key-file=/opt/kubernetes/ssl/server-key.pem"
 # --leader-elect
 KUBE_LEADER_ELECT="--leader-elect"
+KUBE_CIDR="--cluster-cidr=__CLUSTER_CIDR__" 
+#cluster_cidr, the pod ip address cluster (10.244.0.0/16)
 EOF
 
 KUBE_CONTROLLER_MANAGER_OPTS="  \${KUBE_LOGTOSTDERR} \\
@@ -36,7 +38,8 @@ KUBE_CONTROLLER_MANAGER_OPTS="  \${KUBE_LOGTOSTDERR} \\
                                 \${KUBE_MASTER}      \\
                                 \${KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE} \\
                                 \${KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE}\\
-                                \${KUBE_LEADER_ELECT}"
+                                \${KUBE_LEADER_ELECT} \\
+                                \${KUBE_CIDR}"
 
 cat <<EOF >/usr/lib/systemd/system/kube-controller-manager.service
 [Unit]
