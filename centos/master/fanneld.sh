@@ -2,7 +2,7 @@
 
 #ETCD_SERVERS=${1:-"http://8.8.8.18:4001"}
 ETCD_SERVERS=${1:-"http://etcd-node1-ip:2379,http://etcd-node2-ip:2379,http://etcd-node3-ip:2379"}
-FLANNEL_NET=${2:-"172.16.0.0/16"}
+FLANNEL_NET=${2:-"10.244.0.0/16"}
 
 #CA_FILE="/opt/kubernetes/etcd/ca.pem"
 #CERT_FILE="/opt/kubernetes/etcd/client.pem"
@@ -10,7 +10,7 @@ FLANNEL_NET=${2:-"172.16.0.0/16"}
 
 cat <<EOF >/opt/kubernetes/cfg/flannel
 FLANNEL_ETCD="-etcd-endpoints=${ETCD_SERVERS}"
-FLANNEL_ETCD_KEY="-etcd-prefix=/coreos.com/network"
+FLANNEL_ETCD_KEY="-etcd-prefix=/network/flannel"
 #FLANNEL_ETCD_CAFILE="--etcd-cafile=${CA_FILE}"
 #FLANNEL_ETCD_CERTFILE="--etcd-certfile=${CERT_FILE}"
 #FLANNEL_ETCD_KEYFILE="--etcd-keyfile=${KEY_FILE}"
@@ -22,17 +22,30 @@ Description=Flanneld overlay address etcd agent
 After=network.target
 [Service]
 EnvironmentFile=-/opt/kubernetes/cfg/flannel
+ExecStartPre=/opt/kubernetes/bin/remove-docker0.sh
 ExecStart=/opt/kubernetes/bin/flanneld --ip-masq \${FLANNEL_ETCD} \${FLANNEL_ETCD_KEY}
+ExecStartPost=/opt/kubernetes/bin/mk-docker-opts.sh -d /run/flannel/docker
 Type=notify
 [Install]
 WantedBy=multi-user.target
+EOF
+
+cat <<EOF >/opt/kubernetes/cfg/flannel-config.json
+{
+ "Network": "10.244.0.0/16",
+ "SubnetLen": 24,
+ "Backend": {
+ "Type": "vxlan",
+ "VNI": 1
+ }
+}
 EOF
 
 # Store FLANNEL_NET to etcd.
 attempt=0
 while true; do
   /bin/etcdctl --no-sync -C ${ETCD_SERVERS} \
-    get /coreos.com/network/config >/dev/null 2>&1
+    get /network/flannel/config >/dev/null 2>&1
   if [[ "$?" == 0 ]]; then
     break
   else
@@ -42,7 +55,7 @@ while true; do
     fi
 
     /bin/etcdctl --no-sync -C ${ETCD_SERVERS} \
-      mk /coreos.com/network/config "{\"Network\":\"${FLANNEL_NET}\"}" >/dev/null 2>&1
+      mk /network/flannel/config </opt/kubernetes/cfg/flannel-config.json >/dev/null 2>&1
     attempt=$((attempt+1))
     sleep 3
   fi
