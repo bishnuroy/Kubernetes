@@ -4,7 +4,7 @@ set -o nounset
 set -o pipefail
 
 readonly ROOT=$(dirname "${BASH_SOURCE}")
-source ${ROOT}/env.sh
+source ${ROOT}/k8s-env.sh
 
 # ensure $RELEASES_DIR is an absolute file path
 mkdir -p ${RELEASES_DIR}
