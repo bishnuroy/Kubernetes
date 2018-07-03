@@ -1,0 +1,9 @@
+```console
+# nslookup kubernetes.default.svc.cluster.local 10.100.0.2
+Server:		10.100.0.2
+Address:	10.100.0.2#53
+
+Non-authoritative answer:
+Name:	kubernetes.default.svc.cluster.local
+Address: 10.100.0.1
+```
