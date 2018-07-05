@@ -61,8 +61,10 @@ systemctl start etcd
 
 Once Cluster start execute below command and restart the service.
 
-
+```
 sed -i s'/ETCD_INITIAL_CLUSTER_STATE="new"/ETCD_INITIAL_CLUSTER_STATE="existing"/'g /etc/etcd/etcd.conf
+
+```
 
 ```
 systemctl restart etcd
