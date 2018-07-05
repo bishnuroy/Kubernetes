@@ -13,7 +13,7 @@ Edit file "/etc/etcd/etcd.conf" with below details.
  ETCD_NAME=node1
  ETCD_DATA_DIR="/var/lib/etcd/node1.etcd"
  ETCD_LISTEN_PEER_URLS="http://ip-of-the-node1:2380"
- ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node1:2379,http://127.0.0.1:2379"
+ ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node1:2379,http://0.0.0.0:4001"
  #[cluster]
  ETCD_INITIAL_ADVERTISE_PEER_URLS="http://ip-of-the-node1:2380"
  ETCD_INITIAL_CLUSTER="node1=http://ip-of-the-node1:2380,node2=http://ip-of-the-node2:2380,node3=http://ip-of-the-node3:2380"
@@ -29,7 +29,7 @@ Edit file "/etc/etcd/etcd.conf" with below details.
  ETCD_NAME=node2
  ETCD_DATA_DIR="/var/lib/etcd/node2.etcd"
  ETCD_LISTEN_PEER_URLS="http://ip-of-the-node2:2380"
- ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node2:2379,http://127.0.0.1:2379"
+ ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node2:2379,http://0.0.0.0:4001"
  #[cluster]
  ETCD_INITIAL_ADVERTISE_PEER_URLS="http://ip-of-the-node2:2380"
  ETCD_INITIAL_CLUSTER="node1=http://ip-of-the-node1:2380,node2=http://ip-of-the-node2:2380,node3=http://ip-of-the-node3:2380"
@@ -44,7 +44,7 @@ Edit file "/etc/etcd/etcd.conf" with below details.
  ETCD_NAME=node3
  ETCD_DATA_DIR="/var/lib/etcd/node3.etcd"
  ETCD_LISTEN_PEER_URLS="http://ip-of-the-node3:2380"
- ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node3:2379,http://127.0.0.1:2379"
+ ETCD_LISTEN_CLIENT_URLS="http://ip-of-the-node3:2379,http://0.0.0.0:4001"
  #[cluster]
  ETCD_INITIAL_ADVERTISE_PEER_URLS="http://ip-of-the-node3:2380"
  ETCD_INITIAL_CLUSTER="node1=http://ip-of-the-node1:2380,node2=http://ip-of-the-node2:2380,node3=http://ip-of-the-node3:2380"
