@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  "9080": demo/coffee-svc:80
+kind: ConfigMap
+metadata:
+  name: ingress-tcp
+  namespace: kube-ingress
