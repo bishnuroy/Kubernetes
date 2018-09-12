@@ -84,13 +84,13 @@ systemctl status ingress-controller
 
 After deployed Ingress controller service below yaml file have to deployed in k8s cluster.
 
-1. "[default-http-backend.yaml]()" in "kube-system" namespace.
+1. "[default-http-backend.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/default-http-backend.yaml)" in "kube-system" namespace.
 
-2. "ingress-tcp.yaml" in "[kube-ingress]()" namespace
+2. "ingress-tcp.yaml" in "[kube-ingress](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/ingress-tcp.yaml)" namespace
 
-3. "[ingress-udp.yaml]()" in "kube-ingress" namespace
+3. "[ingress-udp.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/ingress-udp.yaml)" in "kube-ingress" namespace
 
-4. "[wildcard-secret.yaml]()" in "kube-ingress" namespace
+4. "[wildcard-secret.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/wildcard-secret.yaml)" in "kube-ingress" namespace
 
 
 
