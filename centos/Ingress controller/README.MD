@@ -82,7 +82,7 @@ systemctl start ingress-controller
 systemctl status ingress-controller
 
 
-After deployed Ingress controller service below yaml file have to deployed in k8s cluster.
+After deployed Ingress controller service below yaml file have to be deployed in k8s cluster.
 
 1. "[default-http-backend.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/default-http-backend.yaml)" in "kube-system" namespace.
 
