@@ -12,7 +12,9 @@ endpoint for updates to the Ingress resources. Its job is to satisfy requests fo
 ![IC](https://github.com/bishnuroy/Kubernetes/blob/master/images/IC.jpg)
 
 
-### Ingress Controller Setup:
+## Ingress Controller Setup:
+
+### Deploy nginx a a service:
 
 Create ingress-controller.service file with below contents.
 
@@ -92,6 +94,29 @@ After deployed Ingress controller service below yaml file have to be deployed in
 
 4. "[wildcard-secret.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/wildcard-secret.yaml)" in "kube-ingress" namespace
 
+
+
+## Inginx Setup as a deployment for this setup you will be need a loadbalancer like Nginx, HAProxy.
+
+### Step1:
+   
+   - Deploy [ingress-deployment.yaml])https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/ingress-deployment.yaml) in your cluster.
+   
+```console
+   kubectl --kubeconfig=kubeconfig_file -n ingress-nginx create -f ngress-deployment.yaml
+```
+
+Check the pod and service status, I this deployment i have expose nodePort "30080" and "30443"
+
+### Step2:
+
+ - Add all the worker node in loadbalancer with "30080" and "30443" port.
+ 
+ 
+
+
+
+   
 
 
 
