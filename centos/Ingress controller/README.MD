@@ -100,7 +100,7 @@ After deployed Ingress controller service below yaml file have to be deployed in
 
 ### Step1:
    
-   - Deploy [ingress-deployment.yaml])https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/ingress-deployment.yaml) in your cluster.
+   - Deploy [ingress-deployment.yaml](https://github.com/bishnuroy/Kubernetes/blob/master/centos/Ingress%20controller/ingress-deployment.yaml) in your cluster.
    
 ```console
    kubectl --kubeconfig=kubeconfig_file -n ingress-nginx create -f ngress-deployment.yaml
