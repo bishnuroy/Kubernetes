@@ -1,7 +1,0 @@
-apiVersion: v1
-data:
-  "53": kube-system/kube-dns:53
-kind: ConfigMap
-metadata:
-  name: ingress-udp
-  namespace: kube-ingress
