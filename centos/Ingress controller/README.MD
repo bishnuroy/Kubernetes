@@ -106,7 +106,7 @@ After deployed Ingress controller service below yaml file have to be deployed in
    kubectl --kubeconfig=kubeconfig_file -n ingress-nginx create -f ngress-deployment.yaml
 ```
 
-Check the pod and service status, I this deployment i have expose nodePort "30080" and "30443"
+Check the pod and service status, In this deployment I have exposed nodePort "30080" and "30443"
 
 ### Step2:
 
