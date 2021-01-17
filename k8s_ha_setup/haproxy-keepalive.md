@@ -23,7 +23,7 @@ global_defs {
     router_id LVS_DEVEL
 }
 vrrp_script check_apiserver {
-  script "/etc/keepalived/check_apiserver.sh"
+  script "/etc/keepalived/apiserver_check.sh"
   interval 3
   weight -2
   fall 10
@@ -52,6 +52,24 @@ vrrp_instance VI_1 {
  - Note: 
     - state will be "SLAVE" in other 2 nodes.
     - And priority will be less then master, here 255 for the master then other 2 nodes it will be 254 and 253.
+ 
+ - Create "/etc/keepalived/apiserver_check.sh" script for keepalive check
+ ```
+ #!/bin/sh
+APISERVER_VIP=192.168.0.220
+APISERVER_DEST_PORT=6443
+
+errorExit() {
+    echo "*** $*" 1>&2
+    exit 1
+}
+
+curl --silent --max-time 2 --insecure https://localhost:${APISERVER_DEST_PORT}/ -o /dev/null || errorExit "Error GET https://localhost:${APISERVER_DEST_PORT}/"
+if ip addr | grep -q ${APISERVER_VIP}; then
+    curl --silent --max-time 2 --insecure https://${APISERVER_VIP}:${APISERVER_DEST_PORT}/ -o /dev/null || errorExit "Error GET https://${APISERVER_VIP}:${APISERVER_DEST_PORT}/"
+fi
+ ```
+    - Set execute permission "chmod +x /etc/keepalived/apiserver_check.sh"
  
  **Step4:**
  
@@ -166,10 +184,15 @@ listen stats
     stats hide-version
     stats auth broy:redhat
 ```
+**Step5**
+
+- Resttart the services.
+  - systemctl restrat keepalived.service
+  - systemctl restrat  haproxy
+
 Demo Deshboard of the haproxy status.
 
 ![HAPROXY-Status-Dashboard](https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/haproxy_status.png)
-
 
 
 
