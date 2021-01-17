@@ -187,12 +187,15 @@ listen stats
 **Step5**
 
 - Resttart the services.
-  - systemctl restrat keepalived.service
-  - systemctl restrat  haproxy
+  - systemctl strat keepalived.service
+  - systemctl enable keepalived --now
+  - systemctl strat  haproxy
+  - systemctl enable haproxy --now
 
 Demo Deshboard of the haproxy status.
 
 ![HAPROXY-Status-Dashboard](https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/haproxy_status.png)
+
 
 
 
