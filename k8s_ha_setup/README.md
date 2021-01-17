@@ -13,7 +13,8 @@ For security reson If you want to use iptables you have to add rules for followi
 - TCP	Inbound	8443*	Kubernetes API server	All(if you use haproxy in Control plane nodes)
 
 # Setup Server: 
-  - To do this setup I have created 4 centos servers as below.
+ 
+ To do this setup I have created 4 centos servers as below.
  
  - brk8scm101 - 192.168.0.221 - 2CPU, 2GB RAM and 40GB HDD
  - brk8scm102 - 192.168.0.222 - 2CPU, 2GB RAM and 40GB HDD
