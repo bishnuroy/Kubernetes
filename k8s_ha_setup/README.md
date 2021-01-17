@@ -20,7 +20,7 @@ For security reson If you want to use iptables you have to add rules for followi
  - brk8scm103 - 192.168.0.223 - 2CPU, 2GB RAM and 40GB HDD
  - brk8scw103 - 192.168.0.224 - 2CPU, 4GB RAM and 40GB HDD
  
- *Step1:* Updated hosts file with following entries. (brk8scvip - this will be our vertual ip for for haproxy)
+ **Step1:** Updated hosts file with following entries. (brk8scvip - this will be our vertual ip for for haproxy)
  
  ```
 192.168.0.221 brk8scm101 
@@ -29,7 +29,7 @@ For security reson If you want to use iptables you have to add rules for followi
 192.168.0.224 brk8scw101
 192.168.0.220 brk8scvip
  ```
-*Step2:* Once all the servers are up and running do the HaProxy and Keepalive setup in Control plane nodes.
+**Step2:** Once all the servers are up and running do the HaProxy and Keepalive setup in Control plane nodes.
 
     - [haproxy, keepalive setup document](https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/haproxy-keepalive.md)
 
