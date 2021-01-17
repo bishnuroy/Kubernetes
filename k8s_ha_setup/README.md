@@ -31,6 +31,6 @@ For security reson If you want to use iptables you have to add rules for followi
  ```
 **Step2:** Once all the servers are up and running do the HaProxy and Keepalive setup in Control plane nodes.
 
-    - [haproxy, keepalive setup document](https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/haproxy-keepalive.md)
+- [haproxy, keepalive setup document](https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/haproxy-keepalive.md).
 
  
