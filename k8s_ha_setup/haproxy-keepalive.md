@@ -199,4 +199,4 @@ Demo Deshboard of the haproxy status.
 
 
 
-
+REF: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing
