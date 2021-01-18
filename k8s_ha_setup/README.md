@@ -169,10 +169,12 @@ kubeadm join 192.168.0.220:8443 --token q9jcsy.nm9fce4x4pmd15tv \
   - mkdir -p $HOME/.kube
   - cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   - chown $(id -u):$(id -g) $HOME/.kube/config
+  
 **Step6:** Install pod network - I am using Calico
 - Link: https://docs.projectcalico.org/manifests/calico.yaml (this will point you updated version)
 - Or You can check https://github.com/projectcalico/calico this repo to get more info about calico
   - Command:  kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
 **Step7:**
 - As per instraction of Step5 output execute below command(On other Master Nodes) to Join rest of the master node to the cluster.
 ```
@@ -186,7 +188,7 @@ kubeadm join 192.168.0.220:8443 --token q9jcsy.nm9fce4x4pmd15tv \
     --discovery-token-ca-cert-hash sha256:ef0e9b1d54ec9ad8df0131d3f88fed163dea12fd7c1d0a9a80ee1de2586cc055
 ```
 
-- Output of the cluster status.
+**Output of the cluster status**
 ```
 [root@brk8scm101 ~]# kubectl --kubeconfig=/etc/kubernetes/admin.conf get nodes -o wide
 NAME         STATUS   ROLES                  AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION                CONTAINER-RUNTIME
