@@ -1,0 +1,228 @@
+---
+#This Secret Needed if you used your own secure repository. (Create your own secret as per your repo authentication.)
+apiVersion: v1
+data:
+  .dockerconfigjson: g1UkhreiJ9fX0=
+kind: Secret
+metadata:
+  name: sl-iks-sec
+type: kubernetes.io/dockerconfigjson
+---
+# Source: crds/jenkins-crd.yaml
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: jenkins.jenkins.io
+spec:
+  group: jenkins.io
+  names:
+    kind: Jenkins
+    listKind: JenkinsList
+    plural: jenkins
+    singular: jenkins
+  scope: Namespaced
+  versions:
+    - name : v1alpha2
+      served: true
+      storage: true
+    - name : v1alpha1
+      served: true
+      storage: false
+
+---
+# Source: jenkins-operator/templates/service_account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins-operator
+---
+# Source: jenkins-operator/templates/role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jenkins-operator
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - configmaps
+      - secrets
+    verbs:
+      - get
+      - create
+      - update
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - create
+      - update
+      - list
+      - watch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+    verbs:
+      - get
+      - create
+      - update
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods/portforward
+    verbs:
+      - create
+  - apiGroups:
+      - ""
+    resources:
+      - pods/log
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/exec
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - watch
+      - list
+      - create
+      - patch
+  - apiGroups:
+      - apps
+    resourceNames:
+      - jenkins-operator
+    resources:
+      - deployments/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - jenkins.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+    - monitoring.coreos.com
+    resources:
+    - alertmanagers
+    - prometheuses
+    - prometheuses/finalizers
+    - servicemonitors
+    verbs:
+    - "*"
+---
+# Source: jenkins-operator/templates/role_binding.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: jenkins-operator
+subjects:
+- kind: ServiceAccount
+  name: jenkins-operator
+roleRef:
+  kind: Role
+  name: jenkins-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: jenkins-operator/templates/operator.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-operator
+  labels:
+    app.kubernetes.io/name: jenkins-operator
+    app.kubernetes.io/instance: jenkins-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jenkins-operator
+      app.kubernetes.io/instance: jenkins-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: jenkins-operator
+        app.kubernetes.io/instance: jenkins-operator
+    spec:
+      serviceAccountName: jenkins-operator
+      containers:
+        - name: jenkins-operator
+          #image: virtuslab/jenkins-operator:v0.3.3
+          image: virtuslab/jenkins-operator:v0.4.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          command:
+            - jenkins-operator
+          args: []
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "jenkins-operator"
+          resources:
+            {}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: jenkins-operator
+  name: jenkins-operator-metrics
+spec:
+  ports:
+  - name: http-metrics
+    port: 8383
+    protocol: TCP
+    targetPort: 8383
+  - name: cr-metrics
+    port: 8686
+    protocol: TCP
+    targetPort: 8686
+  selector:
+    name: jenkins-operator
+  type: ClusterIP
