@@ -64,7 +64,7 @@ defaultTLS:
     secret: ingress-nginx/nginx-ingress-tls
 ```
 
-  - Use Service type LoadBalancer (If you integrated MetalLB the you can specify LB IP also)
+  - Use Service type LoadBalancer (If you integrated MetalLB the you can specify LB IP also). Ref:- https://github.com/bishnuroy/Kubernetes/blob/master/k8s_ha_setup/MetalLB.MD
   ```
     service:
     ## Creates a service to expose the Ingress controller pods.
