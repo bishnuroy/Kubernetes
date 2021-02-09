@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-client-provisioner
+spec:
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: quay.io/external_storage/nfs-client-provisioner:latest
+          #securityContext:
+             #runAsUser: 65534
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes  #This is nfs provisioner container local patth
+              readOnly: false
+          env:
+            - name: PROVISIONER_NAME
+              value: NFS_SERVER_NAME/NFS_MOUNT_POINT #This is your provisioner naame which will link with Storage Class
+            - name: NFS_SERVER
+              value: NFS_SERVER_IP_OR_HOSTNAME
+            - name: NFS_PATH
+              value: /nfsshare/nfs/kubedata #NFS Share Mount Point
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: NFS_SERVER_IP_OR_HOSTNAME
+            path: /nfsshare/nfs/kubedata ##NFS Share Mount Point
+      imagePullSecrets: #This you can ignore if you are not using secure private repository
+      - name: sl-iks-sec #This you can ignore if you are not using secure private repository
