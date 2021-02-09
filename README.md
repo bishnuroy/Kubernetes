@@ -1,4 +1,4 @@
-**K8S Updated Document For Multi Master nodes(3 master 3 Workers):** https://github.com/bishnuroy/Kubernetes/tree/master/k8s_ha_setup
+**K8S multi master nodes(3 master 3 Workers) cluster updated document:** https://github.com/bishnuroy/Kubernetes/tree/master/k8s_ha_setup
 
 # Kubernetes
 
