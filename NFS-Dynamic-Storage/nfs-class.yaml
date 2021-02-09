@@ -3,3 +3,5 @@ apiVersion: storage.k8s.io/v1
 metadata:
   name: nfs-dynamic
 provisioner: NFS_SERVER_NAME/NFS_MOUNT_POINT #This shoud mach with your provisioner deployment value.
+parameters:
+  archiveOnDelete: "false" # You can set this as per your requir ment.
