@@ -1,0 +1,219 @@
+---
+apiVersion: v1
+data:
+  password: ZmluZTRub3dAZmluZTRub3cK
+  user: TWFuYWdlcgo=
+kind: Secret
+metadata:
+  labels:
+    app: jenkins-operator
+    jenkins-cr: jenkins-broy
+  name: credentials-ldap-broy
+  #name: jenkins-operator-credentials-jenkins-broy
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-broy-ldap
+  labels:
+    app: jenkins-operator
+    jenkins-cr: jenkins-broy
+data:
+  jenkins-ldap-cm.yaml: |
+    jenkins:
+      systemMessage: "LDAP configured"
+      securityRealm:
+        ldap:
+          configurations:
+            - server: "LDAP_SERVER_NAME_OR_IP"
+              groupMembershipStrategy: 
+                #fromGroupSearch:
+                fromUserRecord:
+                   attributeName: "member"
+                   #filter: "cn=GROUP_NAME" 
+              rootDN: "ou=test,ou=br,o=exaample.com"
+              userSearchBase: "ou=People"
+              userSearch: "uid={0}"
+              groupSearchBase: "ou=Group"
+              groupSearchFilter: "objectClass=posixGroup"
+              managerDN: "cn=Operator,ou=test,ou=br,o=example.com"
+              managerPasswordSecret: "Password_In_Plain_Text"
+              displayNameAttributeName: "cn"
+              mailAddressAttributeName: "mail"
+              ignoreIfUnavailable: "true"
+          cache:
+            size: 100
+            ttl: 10
+          userIdStrategy: CaseInsensitive
+          groupIdStrategy: CaseSensitive
+---
+# Source: jenkins-operator/templates/backup.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-backup-broy
+  labels:
+    app: jenkins-operator
+    jenkins-cr: jenkins-broy
+spec:
+  storageClassName: "standard"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Source: jenkins-operator/templates/jenkins.yaml
+apiVersion: jenkins.io/v1alpha2
+kind: Jenkins
+metadata:
+  name: jenkins-broy
+spec:
+  selector:
+    name: jenkins-operator
+  configurationAsCode:
+    configurations:
+    - name: jenkins-broy-ldap
+    #secret: credentials-jenkins-broy
+  groovyScripts:
+    configurations:
+    #secret:
+      #name: credentials-jenkins-broy
+  backup:
+    containerName: backup
+    action:
+      exec:
+        command: 
+        - /home/user/bin/backup.sh
+    interval: 30
+    makeBackupBeforePodDeletion: true
+  restore:
+    containerName: backup
+    action:
+      exec:
+        command: 
+        - /home/user/bin/restore.sh
+  master:
+    basePlugins: 
+    - name: kubernetes
+      version: 1.25.2
+    - name: workflow-job
+      version: "2.39"
+    - name: workflow-aggregator
+      version: "2.6"
+    - name: git
+      version: 4.2.2
+    - name: job-dsl
+      version: "1.77"
+    - name: configuration-as-code
+      version: "1.39"
+      #version: "1.43"
+      #version: "1.42"
+    - name: configuration-as-code-support
+      version: "1.19"
+    - name: kubernetes-credentials-provider
+      version: "0.13"
+    - name: ldap
+      version: "1.24"
+    - name: pipeline-build-step
+      version: "2.12"
+    - name: pipeline-github
+      version: "2.5"
+    - name: config-file-provider
+      version: "3.6.3"
+    - name: matrix-auth 
+      version: "2.6.2"
+    - name: monitoring
+      version: "1.82.0"
+    #- name: kubernetes-client-api 
+      #version: "4.9.1-1" 
+    #- name: kubernetes-credentials
+      #version: "0.6.2"
+    #- name: snakeyaml-api
+      #version: "1.26.4"
+    - name: blueocean
+      version: "1.23.2"
+    JCasC:
+      enabled: true
+      defaultConfig: false
+    priorityClassName: 
+    disableCSRFProtection: false
+    containers:
+      - name:  jenkins-master
+        image: jenkins/jenkins:lts
+        #image: jenkins/jenkins:lts-centos7
+        #image: jenkins/jenkins:alpine
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 12
+          httpGet:
+            path: /login
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 80
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /login
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: 
+          limits:
+            cpu: 1500m
+            memory: 3Gi
+          requests:
+            cpu: 1
+            memory: 500Mi
+      - name: backup
+        image: virtuslab/jenkins-operator-backup-pvc:v0.1.0
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: BACKUP_DIR
+          value: /backup
+        - name: JENKINS_HOME
+          value: /jenkins-home
+        - name: BACKUP_COUNT
+          value: "3"
+        volumeMounts:
+        - mountPath: /jenkins-home
+          name: jenkins-home
+        - mountPath: /backup
+          name: backup
+    volumes:
+    - name: backup
+      persistentVolumeClaim:
+        claimName: jenkins-backup-broy
+    securityContext:
+      fsGroup: 1000
+      runAsUser: 1000
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: broy-ingress 
+  labels:
+    app: jenkins-operator
+    jenkins-cr: jenkins-broy
+  #namespace: metadata.namespace
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: REPLACE_WITH_AGENT_URL
+    http:
+      paths:
+      - backend:
+          serviceName: jenkins-operator-http-jenkins-broy
+          servicePort: 8080
+        path: /
+  tls:
+  - hosts:
+    - REPLACE_WITH_AGENT_URL
+    secretName: INGRES_TLS_CERT_NAME
