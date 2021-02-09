@@ -14,7 +14,9 @@ To Setup Ingress Controller you need to follow following Steps:  You need HELM t
    - git clone https://github.com/nginxinc/kubernetes-ingress.git
  - Go to helm-chart folder 
    - "cd kubernetes-ingress/deployments/helm-chart/"
- - edit "values.yaml" file as per your needs.
+   
+**Step2:** edit "values.yaml" file as per your needs.
+
 ```
 rbac:
   ## Configures RBAC if you using RBAC in your cluster make it true
