@@ -75,8 +75,28 @@ defaultTLS:
   ```
   ```
       ## The static IP address for the load balancer. Requires controller.service.type set to LoadBalancer. The cloud provider must support this feature.
-    loadBalancerIP: "9.45.94.227"
+    loadBalancerIP: "LB_IP"
   ```
 
+**Step3:**
 
-
+  - helm install nginx-ingress kubernetes-ingress/deployments/helm-chart  --namespace ingress-nginx --set controller.metrics.enabled=true --kubeconfig=brk8s01-admin.conf
+  -  helm ls -n ingress-nginx --kubeconfig=brk8s01-admin.conf
+```
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$ helm ls -n ingress-nginx --kubeconfig=brk8s01-admin.conf
+NAME         	NAMESPACE    	REVISION	UPDATED                            	STATUS  	CHART             	APP VERSION
+nginx-ingress	ingress-nginx	1       	2021-02-07 23:12:46.62882 +0530 IST	deployed	nginx-ingress-edge	edge       
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$
+```
+```
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$ kubectl  --kubeconfig=brk8s01-admin.conf  -n ingress-nginx get pods
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-ingress-nginx-ingress-dmtff   1/1     Running   0          39h
+nginx-ingress-nginx-ingress-kdcbp   1/1     Running   0          39h
+nginx-ingress-nginx-ingress-t647c   1/1     Running   0          39h
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$ 
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$ kubectl  --kubeconfig=brk8s01-admin.conf  -n ingress-nginx get svc
+NAME                          TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+nginx-ingress-nginx-ingress   LoadBalancer   10.96.87.82   Load_Balancer_IP   80:30970/TCP,443:32218/TCP   39h
+Bishnus-MacBook-Pro-2:brk8s bishnuroy$ 
+```
