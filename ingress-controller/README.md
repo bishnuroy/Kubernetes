@@ -111,5 +111,8 @@ Bishnus-MacBook-Pro-2:brk8s bishnuroy$
   - like *.brrnd.example.com
 
 
+**Sample of Ingress Expose**
+
+- Test Deployment :- https://github.com/bishnuroy/Kubernetes/blob/master/ingress-controller/test-deployment.yaml
 
 ![nginx-url](https://github.com/bishnuroy/Kubernetes/blob/master/ingress-controller/nginx_sample.png)
