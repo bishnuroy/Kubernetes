@@ -4,7 +4,11 @@ My Old Document : https://github.com/bishnuroy/Kubernetes/tree/master/centos/Ing
 
 Public Ingress Controller Git Document:
 
-https://github.com/nginxinc/kubernetes-ingress/tree/v1.10.0/deployments
+https://github.com/nginxinc/kubernetes-ingress/tree/v1.10.0/deployments (This repo not having Default-Backend Service)
+
+Thested with This repo and its working fine.
+
+https://github.com/kubernetes/ingress-nginx/tree/ingress-nginx-3.15.2/charts/ingress-nginx/templates
 
 
 To Setup Ingress Controller you need to follow following Steps:  You need HELM to install this Igress Controller.
