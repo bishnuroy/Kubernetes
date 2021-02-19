@@ -109,3 +109,7 @@ Bishnus-MacBook-Pro-2:brk8s bishnuroy$
 
 - Load_Balancer_IP should be mapped in DNS with your wildcard expose url.
   - like *.brrnd.example.com
+
+
+
+![nginx-url](https://github.com/bishnuroy/Kubernetes/blob/master/ingress-controller/nginx_sample.png)
