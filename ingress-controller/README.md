@@ -104,3 +104,8 @@ NAME                          TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)
 nginx-ingress-nginx-ingress   LoadBalancer   10.96.87.82   Load_Balancer_IP   80:30970/TCP,443:32218/TCP   39h
 Bishnus-MacBook-Pro-2:brk8s bishnuroy$ 
 ```
+
+**Step4**
+
+- Load_Balancer_IP should be mapped in DNS with your wildcard expose url.
+  - like *.brrnd.example.com
