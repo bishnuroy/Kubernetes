@@ -1,7 +1,7 @@
 
 **Ref Doc:**
  - https://cert-manager.io/docs/installation/kubernetes/
- - ttps://cert-manager.io/docs/installation/upgrading/
+ - https://cert-manager.io/docs/installation/upgrading/
 
 
 **Step1:**
