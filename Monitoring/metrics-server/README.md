@@ -12,7 +12,7 @@
 
 **Deploy "Matrics Server"**
 Previously heapster was used by K8S Dashboard as a native matrics collector.
-Now heapster is deprecated and Matrics-Server integrated with it.
+Now heapster is deprecated and Matrics-Server integrated.
 
 
  - Version Repo: https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.4.2
