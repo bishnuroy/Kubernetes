@@ -10,7 +10,8 @@
 - dynatrace
 
 
-Deploy "Matrics Server"
+**Deploy "Matrics Server"**
+
  - wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.2/components.yaml .
  - In components.yaml file there will be "- args:" section on deployment, add "- --kubelet-insecure-tls" this parameter if you see any ssl error after deploy      default file. It will solv the certificate error.
  - kubectl --kubeconfig=brk8s01-admin.conf apply -f components.yaml
