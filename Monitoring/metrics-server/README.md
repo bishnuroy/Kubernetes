@@ -6,12 +6,16 @@
 - Heapster (Deprecated)
 - Promethous
 - Elastic Stack
-- DATADOG
-- dynatrace
+- DATADOG (Proprietory)
+- dynatrace (Proprietory)
 
 
 **Deploy "Matrics Server"**
+Previously heapster was used by K8S Dashboard as a native matrics collector.
+Now heapster is deprecated and Matrics-Server integrated with it.
 
+
+ - Version Repo: https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.4.2
  - wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.2/components.yaml .
  - In components.yaml file there will be "- args:" section on deployment, add "- --kubelet-insecure-tls" this parameter if you see any ssl error after deploy      default file. It will solv the certificate error.
  - kubectl --kubeconfig=brk8s01-admin.conf apply -f components.yaml
